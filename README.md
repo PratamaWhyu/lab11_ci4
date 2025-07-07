@@ -340,3 +340,185 @@ Ujicoba file upload dengan mengakses menu tambah artikel.
 ![image](https://github.com/user-attachments/assets/0e8a7c83-ae01-4c06-a3b0-7b2b5668cc82)
 
 <h1>Praktikum 7</h1>
+1. Persiapan 
+Pastikan MySQL Server sudah berjalan, dan buka database `lab_ci4
+
+2. Membuat Tabel Kategori 
+Kita akan membuat tabel baru bernama `kategori` untuk mengkategorikan artikel.
+Jalankan query berikut: 
+
+CREATE TABLE kategori ( 
+id_kategori INT(11) AUTO_INCREMENT, 
+nama_kategori VARCHAR(100) NOT NULL, 
+slug_kategori VARCHAR(100), 
+PRIMARY KEY (id_kategori) 
+); 
+ 
+3. Mengubah Tabel Artikel 
+Tambahkan foreign key `id_kategori` pada tabel `artikel` untuk membuat relasi dengan tabel 
+`kategori`.  
+Query untuk menambahkan foreign key:
+ALTER TABLE artikel 
+ADD COLUMN id_kategori INT(11), 
+ADD CONSTRAINT fk_kategori_artikel 
+FOREIGN KEY (id_kategori) REFERENCES kategori(id_kategori);
+
+4. Membuat Model Kategori 
+Buat file model baru di `app/Models` dengan nama `KategoriModel.php`:
+
+![kategorimod](https://github.com/user-attachments/assets/257bcb59-5fe9-4e98-91ba-f5deb6028f07)
+
+5. Memodifikasi Model Artikel 
+Modifikasi `ArtikelModel.php` untuk mendefinisikan relasi dengan `KategoriModel`:
+
+![artic](https://github.com/user-attachments/assets/dccbc6f7-5746-4202-8b42-19d5ef7bed13)
+Menambahkan method `getArtikelDenganKategori()` untuk mengambil data artikel beserta 
+nama kategorinya menggunakan join.
+
+6. Memodifikasi Controller Artikel 
+Modifikasi `Artikel.php` untuk menggunakan model baru dan menampilkan data relasi:
+
+![artikel](https://github.com/user-attachments/assets/08852d32-0820-44a2-908e-2843e241072d)
+
+7. Memodifikasi View 
+Buka folder view/artikel sesuaikan masing-masing view. 
+<h3>index.php</h3>
+
+![index](https://github.com/user-attachments/assets/8fb3d317-50b4-4593-bdc3-71f4df2ff859)
+<h3>admin_index.php </h3>
+
+![adminindex](https://github.com/user-attachments/assets/65a85009-81e4-4a49-9037-81fba837e54e)
+
+<h3> form_add.php</h3>
+
+![add7](https://github.com/user-attachments/assets/0c11cf38-4829-4956-9f0c-9bc42a217fea)
+<h3>form_edit.php </h3>
+
+![edit7](https://github.com/user-attachments/assets/d99b06ea-80f4-4f7a-bfd3-3c8aeacbfba8)
+8. Testing 
+Lakukan uji coba untuk memastikan semua fungsi berjalan dengan baik: 
+• Menampilkan daftar artikel dengan nama kategori. 
+• Menambah artikel baru dengan memilih kategori. 
+• Mengedit artikel dan mengubah kategorinya. 
+• Menghapus artikel. 
+
+<h1>Praktikum 8</h1>
+
+<h3>Persiapan</h3> 
+Buka Kembali project sebelumnya, kemudian kita tambahkan Pustaka yang dibutuhkan 
+pada project tersebut. 
+<h3>Menambahkan Pustaka jQuery</h3> 
+Kita akan menggunakan pustaka jQuery untuk mempermudah proses AJAX. Download 
+pustaka jQuery versi terbaru dari https://jquery.com dan ekstrak filenya. 
+Salin file jquery-3.6.0.min.js ke folder public/assets/js. 
+<h3>Membuat Model</h3>
+Pada modul sebelumnya sudah dibuat ArtikelModel, pada modul ini kita akan 
+memanfaatkan model tersebut agar dapat diakses melalui AJAX. 
+<h3>Membuat AJAX Controller </h3>
+
+![ajaxcontr](https://github.com/user-attachments/assets/9101c24a-8d70-4800-8b89-3d939e19d40f)
+
+<h3>Membuat View </h3>
+
+![admin8](https://github.com/user-attachments/assets/ce26ab9e-0dd3-46ad-9db5-c80b1ff05044)
+
+<h1>Praktikum 9</h1>
+1. Persiapan 
+* Pastikan MySQL Server sudah berjalan. 
+* Buka database `lab_ci4`. 
+* Pastikan tabel `artikel` dan `kategori` sudah ada dan terisi data. 
+* Pastikan library jQuery sudah terpasang atau dapat diakses melalui CDN. 
+ 
+2. Modifikasi Controller Artikel 
+Ubah method `admin_index()` di `Artikel.php` untuk mengembalikan data dalam format 
+JSON jika request adalah AJAX. (Sama seperti modul sebelumnya)
+
+![admin9](https://github.com/user-attachments/assets/f04542c1-391e-491a-a496-278a90d2e174)
+
+3. Modifikasi View (admin_index.php)
+* Ubah view `admin_index.php` untuk menggunakan jQuery. 
+* Hapus kode yang menampilkan tabel artikel dan pagination secara langsung. 
+* Tambahkan elemen untuk menampilkan data artikel dan pagination dari AJAX. 
+* Tambahkan kode jQuery untuk melakukan request AJAX.
+
+  ![adminindex9](https://github.com/user-attachments/assets/680c4d4e-d9fa-4547-abd2-64cf2a35c422)
+
+<h1>Praktikum 10</h1>
+<h3>Persiapan</h3>
+Periapan awal adalah mengunduh aplikasi REST Client, ada banyak aplikasi yang dapat digunakan untuk 
+keperluan tersebut. Salah satunya adalah Postman. Postman – Merupakan aplikasi yang berfungsi 
+sebagai REST Client, digunakan untuk testing REST API. Unduh apliasi Postman dari tautan berikut: 
+https://www.postman.com/downloads/  
+<h3>Membuat Model</h3>
+Pada modul sebelumnya sudah dibuat ArtikelModel, pada modul ini kita akan memanfaatkan model 
+tersebut agar dapat diakses melalui API. 
+<h3>Membuat REST Controller </h3>
+Pada tahap ini, kita akan membuat file REST Controller yang berisi fungsi untuk menampilkan, 
+menambah, mengubah dan menghapus data. Masuklah ke direktori app\Controllers dan buatlah file 
+baru bernama Post.php. Kemudian, salin kode di bawah ini ke dalam file tersebut: 
+
+![post](https://github.com/user-attachments/assets/2d60eb74-3740-4220-9134-e5b52bcfa5f7)
+Kode diatas berisi 5 method, yaitu: 
+• index() – Berfungsi untuk menampilkan seluruh data pada database. 
+• create() – Berfungsi untuk menambahkan data baru ke database. 
+• show() – Berfungsi untuk menampilkan suatu data spesifik dari database. 
+• update() – Berfungsi untuk mengubah suatu data pada database. 
+• delete() – Berfungsi untuk menghapus data dari database. 
+
+<h3>Membuat Routing REST API</h3> 
+Untuk mengakses REST API CodeIgniter, kita perlu mendefinisikan route-nya terlebih dulu. 
+Caranya, masuklah ke direktori app/Config dan bukalah file Routes.php. Tambahkan kode 
+di bawah ini: 
+
+![routs](https://github.com/user-attachments/assets/aa667773-e515-4f8d-a550-dcb96d12b4e6)
+
+Selanjutnya melakukan uji coba terhadap REST API CodeIgniter. 
+Testing REST API CodeIgniter 
+Buka aplikasi postman dan pilih create new → HTTP Request
+
+![image](https://github.com/user-attachments/assets/25d0957a-d22a-4be9-a2bc-0c3ce285f9a7)
+
+<h3>Menampilkan Semua Data</h3> 
+Pilih method GET dan masukkan URL berikut: 
+http://localhost:8080/post  
+Lalu, klik Send. Jika hasil test menampilkan semua data artikel dari database, maka pengujian 
+berhasil. 
+
+![image](https://github.com/user-attachments/assets/ebc57406-4092-457b-9693-d3b1b2e39b8a)
+
+<h3>Menampilkan Data Spesifik</h3> 
+Masih menggunakan method GET, hanya perlu menambahkan ID artikel di belakang URL 
+seperti ini: 
+http://localhost:8080/post/30
+Selanjutnya, klik Send. Request tersebut akan menampilkan data artikel yang memiliki ID 
+nomor 30 di database.
+
+![image](https://github.com/user-attachments/assets/63b1b2cb-d0df-4d05-8eec-8be667c1a495)
+
+<h3>Mengubah Data </h3> 
+Untuk mengubah data, silakan ganti method menjadi PUT. Kemudian, masukkan URL artikel 
+yang ingin diubah. Misalnya, ingin mengubah data artikel dengan ID nomor 30, maka masukkan 
+URL berikut: 
+http://localhost:8080/post/30  
+Selanjutnya, pilih tab Body. Kemudian, pilih raw. salin data dari hasil saat GET kemudian ubah nilai yang ingin di perbarui. Kalau sudah, 
+klik Send. 
+
+![image](https://github.com/user-attachments/assets/36613562-2984-423a-bd6f-9f7c1e0a09b0)
+
+<h3>Menambahkan Data </h3>
+Anda perlu menggunakan method POST untuk menambahkan data baru ke database. 
+Kemudian, masukkan URL berikut: 
+http://localhost:8080/post 
+Pilih tab Body, lalu pilih x-www-form-uriencoded. Masukkan atribut tabel pada kolom KEY 
+dan nilai data baru di kolom VALUE. Jangan lupa, klik Send. 
+
+![image](https://github.com/user-attachments/assets/b9e49e61-eeb5-4b36-85de-4b6fa17c7dbb)
+
+<h3>Menghapus Data</h3> 
+Pilih method DELETE untuk menghapus data. Lalu, masukkan URL spesifik data mana yang 
+ingin di hapus. Misalnya, ingin menghapus data nomor 30, maka URL-nya seperti ini: 
+http://localhost:8080/post/30 
+Langsung saja klik Send, maka akan mendapatkan pesan bahwa data telah berhasil dihapus dari 
+database. 
+
+![image](https://github.com/user-attachments/assets/b0dde2e2-75a1-4e7a-8258-02b1c7989f75)
